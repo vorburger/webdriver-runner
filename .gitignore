@@ -4,3 +4,7 @@
 *.jar
 *.war
 *.ear
+
+# Build and Eclipse directories etc.
+target/
+.settings/
