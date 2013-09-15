@@ -19,13 +19,14 @@ import org.openqa.selenium.support.events.WebDriverEventListener;
 /**
  * WebDriver Delegate helper.
  * 
- * Shame such a class already included in WebDriver core.
- * 
  * Implementation for the correct handling for the various WebDriver extension
  * interfaces (JavascriptExecutor, TakesScreenshot, HasInputDevices, HasTouchScreen; 
  * Rotatable, BrowserConnection, WebStorage, LocationContext, LocationListener,
  * ApplicationCache; FindsBy* etc.) is "strongly inspired" (erm, mostly 
  * copy/pasted) from the EventFiringWebDriver.
+ * 
+ * Shame such a helper/util class is not already included in WebDriver core.
+ * @see https://code.google.com/p/selenium/issues/detail?id=2512
  * 
  * @author Michael Vorburger
  */
