@@ -1,5 +1,8 @@
 package ch.vorburger.webdriver.runner.core.examples;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
+
 import java.util.Arrays;
 
 import org.junit.After;
@@ -22,10 +25,10 @@ public class WebDriverParametrizedExampleTest {
 	
 	// TODO test name!!
 	
-	protected final WebDriver webDriver;
+	protected final WebDriver w;
 
-	public WebDriverParametrizedExampleTest(WebDriverProvider driver) {
-		this.webDriver = driver.get();
+	public WebDriverParametrizedExampleTest(WebDriverProvider driver) throws Exception {
+		this.w = driver.getNewWebDriver();
 	}
 	
 	@Parameters public static Iterable<WebDriverProvider[]> webDrivers() {
@@ -37,15 +40,18 @@ public class WebDriverParametrizedExampleTest {
 	}
 	
 	@Test public void testGoogle() {
-		webDriver.get("http://www.google.com");
+		w.get("http://www.google.com");
+		assertThat(w.getTitle(), containsString("Google"));
 	}
 
 	@Test public void testVorburgerCH() {
-		webDriver.get("http://www.vorburger.ch");
+		w.get("http://www.vorburger.ch");
+		assertThat(w.getTitle(), containsString("Homepage"));
 	}
 	
+	// TODO push this up / into helper.. but ideally separate class from core multi-runner stuff?
 	@After public void afterTest() {
-		webDriver.quit();
+		w.quit();
 	}
 	
 }

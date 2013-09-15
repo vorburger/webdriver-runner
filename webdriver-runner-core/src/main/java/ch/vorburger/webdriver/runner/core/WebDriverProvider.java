@@ -1,11 +1,11 @@
 package ch.vorburger.webdriver.runner.core;
 
-import javax.inject.Provider;
-
 import org.openqa.selenium.WebDriver;
 
-public interface WebDriverProvider extends Provider<WebDriver> {
+public interface WebDriverProvider {
 
+	WebDriver getNewWebDriver() throws Exception;
+	
 	/**
 	 * Name of the Provider.
 	 * Used e.g. for the -Dwebdriver.runner.providers list system property.
