@@ -4,6 +4,12 @@ import org.openqa.selenium.WebDriver;
 
 public interface WebDriverProvider {
 
+	/**
+	 * Obtain a "new" (as in "available and free for you to use") WebDriver instance.
+	 *
+	 * @return a WebDriver, which may or may not actually be "new" (as in, a just constructed new instance) 
+	 * @throws Exception if a new WebDriver instance could not be obtained / created for whatever reason
+	 */
 	WebDriver getNewWebDriver() throws Exception;
 	
 	/**
