@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import ch.vorburger.webdriver.runner.core.WebDriverProvider;
@@ -23,49 +22,10 @@ import ch.vorburger.webdriver.runner.core.WebDriverProvider;
  */
 public class ChromeDriverProvider implements WebDriverProvider {
 
-	protected static Singleton singleton;
+	protected static LazyAutoStoppingChromeDriverService singleton = new LazyAutoStoppingChromeDriverService();
 	
-	// TODO rename this.. this actually is NOT a Singleton (only the static above makes it).  This is a... what? AutoStartStopDriverService ? 
-	protected class Singleton {
-		protected ChromeDriverService service;
-
-		public Singleton() throws IOException {
-			service = ChromeDriverService.createDefaultService();
-			service.start();
-			// TODO Runtime.getRuntime().addShutdownHook(shutdownHookThread);
-		}
-		
-		@Override
-		protected void finalize() {
-			stop();
-		}
-
-		protected void stop() {
-			try {
-				if (service != null && service.isRunning()) {
-					service.stop();
-					service = null;
-				}
-			} catch (Throwable t) {
-				// Ignore.
-			}
-		}
-		
-		public ChromeDriverService getDriverService() {
-			return service;
-		}
-	}
-	
-	protected Singleton getSingleton() throws IOException {
-		if (singleton == null) {
-			singleton = new Singleton();
-		}
-		return singleton;
-	}
-
 	@Override
 	public WebDriver getNewWebDriver() throws IOException {
-		Singleton singleton = getSingleton();
 		DesiredCapabilities capabilities = getDesiredCapabilities();
 		return new ChromeDriver(singleton.getDriverService(), capabilities);
 	}
