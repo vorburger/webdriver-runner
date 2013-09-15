@@ -49,6 +49,7 @@
 			<version>4.11</version>
 		</dependency>
 		<dependency>
+			<!-- TODO I'll remove this... -->
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
