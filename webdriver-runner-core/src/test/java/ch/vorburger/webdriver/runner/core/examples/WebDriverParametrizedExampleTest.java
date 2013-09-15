@@ -6,9 +6,11 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.WebDriver;
 
@@ -21,18 +23,20 @@ public class WebDriverParametrizedExampleTest {
 	
 	// TODO refactor push up into and use AbstractWebDriverTest
 	
-	// Doesn't work :( @Parameter WebDriver wd; so instead (TODO raise Junit bug..)
-	
 	// TODO test name!!
 	
-	protected final WebDriver w;
+	// Field injected @Parameter preferable over Constructor injection, because Constructor with super would have to be repeated in each test class  
+	// NOTE: Until (if) https://github.com/junit-team/junit/pull/737 makes it in, this HAS to be public (cannot be protected)
+	@Parameter public WebDriverProvider webDriverProvider;
+	protected WebDriver w;
 
-	public WebDriverParametrizedExampleTest(WebDriverProvider driver) throws Exception {
-		this.w = driver.getNewWebDriver();
+	@Before public void beforeTest() throws Exception {
+		w = webDriverProvider.getNewWebDriver();
 	}
 	
 	@Parameters public static Iterable<WebDriverProvider[]> webDrivers() {
 		// TODO use/delegate to MyWebDriverTestConfiguration idea instead?
+		// TODO switch this to use the new RecyclingDriverProvider.. keep the entire config. outside.. how/where?
 		return Arrays.asList(new WebDriverProvider[][] {
 				new WebDriverProvider[] { new ChromeDriverProvider() }, 
 				new WebDriverProvider[] { new FirefoxDriverProvider() } 
