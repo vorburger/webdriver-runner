@@ -17,7 +17,7 @@ the very same clean functional test run in parallel on different WebDriver imple
 webdriver-runner is split into several artifacts:
 
 * webdriver-runner-core is for local tests execution. 
-See WebDriverParametrizedExampleTest (TODO LINK) for a usage example.
+See [WebDriverParametrizedExampleTest](https://github.com/vorburger/webdriver-runner/blob/master/webdriver-runner-core/src/test/java/ch/vorburger/webdriver/runner/core/examples/WebDriverParametrizedExampleTest.java) for a usage example.
 * _webdriver-runner-saucelabs (TBD) will allow running tests on https://saucelabs.com_
 
 _TODO: blurb with details re. -D configuration._
@@ -26,4 +26,4 @@ _TODO: blurb with details re. parallel test execution TBD._
 
 _TODO: blurb about how to get it from my Maven repo, à la webdriver-reporting._
 
-BTW: You may find webdriver-reporting (TODO LINK) of interest to you as well?
+BTW: You may find [webdriver-reporting](https://github.com/vorburger/webdriver-reporting/) of interest to you as well?
