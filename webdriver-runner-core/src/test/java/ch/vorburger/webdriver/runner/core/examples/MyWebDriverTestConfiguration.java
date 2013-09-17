@@ -2,31 +2,18 @@ package ch.vorburger.webdriver.runner.core.examples;
 
 import java.util.Arrays;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-
 import ch.vorburger.webdriver.runner.core.WebDriverProvider;
-import ch.vorburger.webdriver.runner.core.WebDriverRunnerConfiguration;
 import ch.vorburger.webdriver.runner.core.providers.ChromeDriverProvider;
 import ch.vorburger.webdriver.runner.core.providers.FirefoxDriverProvider;
-import ch.vorburger.webdriver.runner.core.providers.RecyclingDriverProvider;
+import ch.vorburger.webdriver.runner.core.sugar.AbstractWebDriverRunnerConfiguration;
 
-public class MyWebDriverTestConfiguration implements WebDriverRunnerConfiguration {
+public class MyWebDriverTestConfiguration extends AbstractWebDriverRunnerConfiguration {
 
-	@Override public Iterable<WebDriverProvider> getWebDriverProviders() {
+	@Override public Iterable<WebDriverProvider> doGetWebDriverProviders() {
 		return Arrays.asList( new WebDriverProvider[] {
 				new ChromeDriverProvider(), 
 				new FirefoxDriverProvider()
 			});
-	}
-
-	// TODO move this up into a parent base class which can be re-used by other WebDriverRunnerConfiguration implementations
-	protected Iterable<WebDriverProvider> getRecyclingProviders(Iterable<WebDriverProvider> providers) {
-		return Iterables.transform(providers, new Function<WebDriverProvider, WebDriverProvider>() {
-			public WebDriverProvider apply(WebDriverProvider provider) {
-				return new RecyclingDriverProvider(provider);
-			}
-		});
 	}
 
 }
