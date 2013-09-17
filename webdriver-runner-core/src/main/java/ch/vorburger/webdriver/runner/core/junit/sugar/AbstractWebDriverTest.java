@@ -1,55 +1,33 @@
 package ch.vorburger.webdriver.runner.core.junit.sugar;
 
-import java.util.Arrays;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.WebDriver;
 
 import ch.vorburger.webdriver.runner.core.WebDriverProvider;
-import ch.vorburger.webdriver.runner.core.junit.ParameterizedParameters;
-import ch.vorburger.webdriver.runner.core.providers.ChromeDriverProvider;
-import ch.vorburger.webdriver.runner.core.providers.FirefoxDriverProvider;
-import ch.vorburger.webdriver.runner.core.providers.RecyclingDriverProvider;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
+import ch.vorburger.webdriver.runner.core.junit.WebDriverRunner;
 
 /**
  * Abstract convenience test base class. 
- * With appropriate annotations, and protected @Inject WebDriver.
+ * With appropriate annotations, and WebDriver available to subclasses.
+ * 
+ * Sub classes must define the JUnit Parameterized Parameters like this:
+ * <pre> &#064;Parameters(name = "{0}") 
+ * public static Iterable<&lt;Object[]&gt; webDriverProvidersAndNameData() {
+ *     Iterable<WebDriverProvider> providers = config.getWebDriverProviders();
+ *     return new ParameterizedParameters(providers).webDriverProvidersAndNameData();
+ * }</pre>
  * 
  * This is just "sugar" - in case e.g. your in-house WD framework already has a
- * similar base class, you do not have to use this one of course, and can just
- * use the annotations directly.
+ * similar base class, you do not have to use this one of course, and you can just
+ * copy/pasted (or adapt to your needs) the boilerplate code and annotations below.
  * 
  * @author Michael Vorburger
  */
-@RunWith(Parameterized.class) // @see https://github.com/junit-team/junit/wiki/Parameterized-tests
-// TODO no need? @RunWith(WebDriverRunner.class)
-// TODO ? @WebDriverConfiguration(MyWebDriverTestConfiguration.class) ?
-public class AbstractWebDriverTest {
-
-	@Parameters(name = "{0}") 
-	public static Iterable<Object[]> webDriverProvidersAndNameData() {
-		Iterable<WebDriverProvider> providers = Arrays.asList( new WebDriverProvider[] {
-			// TODO don't hard-code here, but use/delegate to/integrate with MyWebDriverTestConfiguration idea...
-			new ChromeDriverProvider(), new FirefoxDriverProvider()
-		});
-		return new ParameterizedParameters(getRecyclingProviders(providers)).webDriverProvidersAndNameData();
-	}
-	
-	protected static Iterable<WebDriverProvider> getRecyclingProviders(Iterable<WebDriverProvider> providers) {
-		return Iterables.transform(providers, new Function<WebDriverProvider, WebDriverProvider>() {
-			public WebDriverProvider apply(WebDriverProvider provider) {
-				return new RecyclingDriverProvider(provider);
-			}
-		});
-	}
+@RunWith(WebDriverRunner.class)
+public abstract class AbstractWebDriverTest {
 
 	// Field injected @Parameter preferable over Constructor injection, because Constructor with super would have to be repeated in each test class  
 	// NOTE: Until (if) https://github.com/junit-team/junit/pull/737 makes it in, this HAS to be public (cannot be protected)

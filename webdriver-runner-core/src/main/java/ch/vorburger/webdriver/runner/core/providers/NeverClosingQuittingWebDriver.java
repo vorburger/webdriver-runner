@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 public class NeverClosingQuittingWebDriver extends DelegatingWebDriver {
 
-	protected NeverClosingQuittingWebDriver(WebDriver delegate) {
+	public NeverClosingQuittingWebDriver(WebDriver delegate) {
 		super(delegate);
 	}
 
